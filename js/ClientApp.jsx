@@ -11,23 +11,50 @@ class App extends  React.Component {
             id: 0,
             title: '',
             body: ''
-        }]
+        }],
+        searchId: ''
     };
 
     componentDidMount() {
+        this.getAllPosts();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.searchId && this.state.searchId !== prevState.searchId){
+            this.getPostById()
+        }
+
+        if(!this.state.searchId){
+            this.getAllPosts()
+        }
+    }
+
+    getPostById = () => {
+        axios.get(`https://jsonplaceholder.typicode.com/posts/${this.state.searchId}`)
+        .then(response => response.data)
+        .then(({userId, id, title, body}) => ({userId, id, title, body}))
+        .then(data => this.setState({data: [data]}))
+    }
+
+    getAllPosts = () => {
         axios.get('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.data.map(({userId, id, title, body}) => ({userId, id, title, body})))
-        .then(data => this.setState({data}))
+        .then(data => this.setState({ data }))
     }
 
     handleSearchTermChange = event => {
         this.setState({searchTerm: event.target.value})
     }
 
+    handleSearchById = event => {
+        this.setState({searchId: event.target.value})
+    }
+
     render() {
         return (
         <div className='app'>
             <input type="text" onChange={this.handleSearchTermChange} value={this.state.searchTerm} />
+            <input type="text" onChange={this.handleSearchById} value={this.state.searchId} />
             <div>
                 {this.state.data.filter(post => 
                 post.title.toUpperCase().indexOf(this.state.searchTerm.toUpperCase()) >= 0)

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import axios from 'axios'
 import Post from './Post'
+import EmplForm from './EmplForm'
 
 class App extends  React.Component {
     state = {
@@ -12,7 +13,11 @@ class App extends  React.Component {
             title: '',
             body: ''
         }],
-        searchId: ''
+        searchId: '',
+        firstName: '',
+        lastName: '',
+        status: '',
+        emplFormOpen: false
     };
 
     componentDidMount() {
@@ -50,11 +55,37 @@ class App extends  React.Component {
         this.setState({searchId: event.target.value})
     }
 
+    handleSubmitEmplForm = state => {
+       this.setState(state)
+       this.handleCloseEmplForm()
+    }
+
+    handleOpenEmplForm = () => {
+        this.setState({emplFormOpen: true})
+    }
+
+    handleCloseEmplForm = () => {
+        this.setState({emplFormOpen: false})
+    }
+
+
+
     render() {
         return (
         <div className='app'>
             <input type="text" onChange={this.handleSearchTermChange} value={this.state.searchTerm} />
             <input type="text" onChange={this.handleSearchById} value={this.state.searchId} />
+            <button onClick={this.handleOpenEmplForm}>Open form</button>
+            {(this.state.emplFormOpen) ? <EmplForm callback={this.handleSubmitEmplForm}/> : ''}
+            <div>
+                <span>Imie: {this.state.firstName}</span>
+            </div>
+            <div>
+                <span>Nazwisko: {this.state.lastName}</span>
+            </div>
+            <div>
+                <span>Status: {this.state.status}</span>
+            </div>
             <div>
                 {this.state.data.filter(post => 
                 post.title.toUpperCase().indexOf(this.state.searchTerm.toUpperCase()) >= 0)

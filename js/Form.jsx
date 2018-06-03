@@ -20,7 +20,7 @@ padding: 20px;
 border: 1px solid #888;
 width: 80%; `;
 
-class EmplForm extends React.Component {
+class Form extends React.Component {
   state = {
     firstName: "",
     lastName: "",
@@ -28,7 +28,7 @@ class EmplForm extends React.Component {
   };
 
   props = {
-    callback: Function
+    submitForm: Function
   };
 
   handleFirstNameChange = event => {
@@ -43,7 +43,7 @@ class EmplForm extends React.Component {
   };
 
   handelSubmitForm = () => {
-    this.props.callback(this.state);
+    this.props.submitForm(this.state);
   };
 
   render() {
@@ -82,8 +82,8 @@ class EmplForm extends React.Component {
   }
 }
 
-EmplForm.propTypes = {
-  callback: func.isRequired
+Form.propTypes = {
+  submitForm: func.isRequired
 };
 
-export default EmplForm;
+export default Form;

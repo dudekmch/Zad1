@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import axios from 'axios'
 import Post from './Post'
-import EmplForm from './EmplForm'
+import Form from './Form'
 
 class App extends  React.Component {
     state = {
@@ -17,7 +17,7 @@ class App extends  React.Component {
         firstName: '',
         lastName: '',
         status: '',
-        emplFormOpen: false
+        formOpen: false
     };
 
     componentDidMount() {
@@ -55,28 +55,22 @@ class App extends  React.Component {
         this.setState({searchId: event.target.value})
     }
 
-    handleSubmitEmplForm = state => {
-       this.setState(state)
-       this.handleCloseEmplForm()
+    handleSubmitForm = formState => {
+       this.setState(formState)
+       this.setState({formOpen: false})
     }
 
-    handleOpenEmplForm = () => {
-        this.setState({emplFormOpen: true})
+    handleOpenForm = () => {
+        this.setState({formOpen: true})
     }
-
-    handleCloseEmplForm = () => {
-        this.setState({emplFormOpen: false})
-    }
-
-
 
     render() {
         return (
         <div className='app'>
             <input type="text" onChange={this.handleSearchTermChange} value={this.state.searchTerm} />
             <input type="text" onChange={this.handleSearchById} value={this.state.searchId} />
-            <button onClick={this.handleOpenEmplForm}>Open form</button>
-            {(this.state.emplFormOpen) ? <EmplForm callback={this.handleSubmitEmplForm}/> : ''}
+            <button onClick={this.handleOpenForm}>Open form</button>
+            {(this.state.formOpen) ? <Form submitForm={this.handleSubmitForm}/> : ''}
             <div>
                 <span>Imie: {this.state.firstName}</span>
             </div>

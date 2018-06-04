@@ -1,0 +1,1 @@
+export const SET_FORM_OPEN = 'SET_FORM_OPEN';

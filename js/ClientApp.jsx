@@ -56,9 +56,9 @@ class App extends  React.Component {
     }
 
     handleSubmitForm = formState => {
-       this.setState(formState)
-       this.setState({formOpen: false})
+       this.setState(Object.assign({}, {formOpen: false}, formState))
     }
+
 
     handleOpenForm = () => {
         this.setState({formOpen: true})
@@ -70,7 +70,7 @@ class App extends  React.Component {
             <input type="text" onChange={this.handleSearchTermChange} value={this.state.searchTerm} />
             <input type="text" onChange={this.handleSearchById} value={this.state.searchId} />
             <button onClick={this.handleOpenForm}>Open form</button>
-            {(this.state.formOpen) ? <Form submitForm={this.handleSubmitForm}/> : ''}
+            {this.state.formOpen && <Form submitForm={this.handleSubmitForm}/>}
             <div>
                 <span>Imie: {this.state.firstName}</span>
             </div>

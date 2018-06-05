@@ -3,7 +3,7 @@ import { FormContext } from "./FormContext";
 
 class FormContextProvider extends React.Component {
   state = {
-    formOpen: "false",
+    formOpen: false,
     firstName: "",
     lastName: "",
     status: ""
@@ -21,13 +21,24 @@ class FormContextProvider extends React.Component {
 
     this.setState(Object.assign({}, el, { formOpen: false }));
   };
+
+  setFormOpen = () => {
+    this.setState({ formOpen: true });
+  };
+
   render() {
     return (
-      <FormContext.Provider value={{ state: this.state, setFormState: this.setFormContextState }}>
+      <FormContext.Provider
+        value={{
+          state: this.state,
+          setFormState: this.setFormContextState,
+          setFormOpen: this.setFormOpen
+        }}
+      >
         {this.props.children}
       </FormContext.Provider>
     );
   }
 }
 
-export default FormContextProvider
+export default FormContextProvider;

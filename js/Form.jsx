@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FormContext } from "./FormContext";
 
@@ -20,27 +20,8 @@ padding: 20px;
 border: 1px solid #888;
 width: 80%; `;
 
-class Form extends Component {
-  state = {
-    firstName: "",
-    lastName: "",
-    status: "Zatrudniony"
-  };
+const Form = () => (
 
-  handleFirstNameChange = event => {
-    this.setState({ firstName: event.target.value });
-  };
-
-  handleLastNameChange = event => {
-    this.setState({ lastName: event.target.value });
-  };
-  handleStatusChange = event => {
-    this.setState({ status: event.target.value });
-  };
-
-
-  render() {
-    return (
       <Modal>
           <FormContext.Consumer>
             {context => (
@@ -81,7 +62,5 @@ class Form extends Component {
           </FormContext.Consumer>
       </Modal>
     );
-  }
-}
 
 export default Form;

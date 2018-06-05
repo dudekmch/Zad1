@@ -75,6 +75,7 @@ class ClientApp extends React.Component {
   render() {
     return (
         <div className="app">
+        {this.props.formOpen && <Form submitForm={this.handleSubmitForm} />}
           <input
             type="text"
             onChange={this.handleSearchTermChange}
@@ -86,7 +87,6 @@ class ClientApp extends React.Component {
             value={this.state.searchId}
           />
           <button onClick={this.handleOpenForm}>Open form</button>
-          {this.props.formOpen && <Form submitForm={this.handleSubmitForm} />}
           <div>
             <span>Imie: {this.props.firstName}</span>
           </div>

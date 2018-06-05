@@ -1,7 +1,7 @@
 import React from "react";
 import { func, string } from "prop-types";
 import styled from "styled-components";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import { setFormData } from "./actionCreators";
 
 const Modal = styled.div`
@@ -15,7 +15,7 @@ overflow: auto;
 background-color: rgb(0,0,0);
 background-color: rgba(0,0,0,0.4);
 `;
-const ModalContent = styled.div`
+const ModalContent = styled.form`
 background-color: #fefefe;
 margin: 15% auto;
 padding: 20px;
@@ -23,70 +23,66 @@ border: 1px solid #888;
 width: 80%; `;
 
 class Form extends React.Component {
-  state = {
-    firstName: this.props.firstName,
-    lastName: this.props.lastName,
-    status: this.props.status ? this.props.status : 'Wolny'
-  }
+  handelSubmitForm = e => {
+    e.preventDefault();
+    const { elements } = e.currentTarget;
 
-  props = {
-    firstName: string,
-    lastName: string,
-    status: string,
-    handleFormDataChange: Function
-  };
+    const el = Array.from(elements).reduce((prev, next) => {
+      const { name, value, type } = next;
+      if (type === "button") return prev;
+      return Object.assign({}, prev, { [name]: value });
+    }, {});
 
-  handleFirstNameChange = event => {
-    this.setState({ firstName: event.target.value });
-  };
+    console.log(el);
 
-  handleLastNameChange = event => {
-    this.setState({ lastName: event.target.value });
-  };
-
-  handleStatusChange = event => {
-    this.setState({ status: event.target.value });
-  };
-
-  handelSubmitForm = () => {
-    this.props.handleFormDataChange(Object.assign({}, this.state, {formOpen: false}));
+    this.props.handleFormDataChange(Object.assign({}, el, { formOpen: false }));
   };
 
   render() {
     return (
       <Modal>
-        <ModalContent>
+        <ModalContent onSubmit={this.handelSubmitForm}>
           <div>
             First name:
             <input
+              id="firstName"
+              name="firstName"
               type="text"
-              value={this.state.firstName}
-              onChange={this.handleFirstNameChange}
+              defaultValue={this.props.firstName}
+              required
             />
           </div>
           <div>
-            Last name:
+            <label htmlFor="lastname">Last name:</label>
             <input
+              name="lastName"
+              id="lastName"
               type="text"
-              value={this.state.lastName}
-              onChange={this.handleLastNameChange}
+              defaultValue={this.props.lastName}
             />
           </div>
           <div>
             Employent status:
-            <select onChange={this.handleStatusChange} value={this.state.status}>
+            <select defaultValue={this.props.status || "Wolny"} name="status">
               <option value="Zatrudniony">Zatrudniony</option>
               <option value="Wolny">Wolny</option>
             </select>
-            </div>
-            <div>
-            <button onClick={this.handelSubmitForm}>Save Form</button>
+          </div>
+          <div>
+            <button type="submit">Save Form</button>
           </div>
         </ModalContent>
       </Modal>
     );
   }
 }
+
+Form.defaultProps = {
+  firstName: "",
+  lastName: "",
+  status: "",
+  handleFormDataChange: () => {}
+};
 
 Form.propTypes = {
   firstName: string.isRequired,
@@ -95,10 +91,15 @@ Form.propTypes = {
   handleFormDataChange: func.isRequired
 };
 
-const mapStateToProps = state => ({firstName: state.firstName, lastName: state.lastName, status: state.status});
-const mapDispatchToProps = (dispatch) =>({
+const mapStateToProps = state => ({
+  firstName: state.firstName,
+  lastName: state.lastName,
+  status: state.status
+});
+const mapDispatchToProps = dispatch => ({
   handleFormDataChange(formData) {
-    dispatch(setFormData(formData)
-)}});
+    dispatch(setFormData(formData));
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

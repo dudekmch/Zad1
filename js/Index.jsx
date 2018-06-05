@@ -2,17 +2,17 @@ import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ClientApp from "./ClientApp";
-import FormContext from "./FormContext"
+import FormContextProvider from "./FormContextProvider";
 
 const App = () => (
   <BrowserRouter>
-  <FormContext>
-    <div className="app">
-      <Switch>
-        <Route exact path="/" component={ClientApp} />
-      </Switch>
-    </div>
-    </FormContext>
+    <FormContextProvider>
+      <div className="app">
+        <Switch>
+          <Route exact path="/" component={ClientApp} />
+        </Switch>
+      </div>
+    </FormContextProvider>
   </BrowserRouter>
 );
 

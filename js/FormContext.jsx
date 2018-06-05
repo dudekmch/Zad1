@@ -1,22 +1,9 @@
-import React, { Component } from "react";
-
-const FormContext = React.createContext();
-
-class FormProvider extends Component {
-  state = {
+import React from "react";
+export const FormContext = React.createContext({
+  state: {
     firstName: "",
     lastName: "",
-    status: "Wolny",
+    status: "",
     formOpen: false
-  };
-
-  render() {
-    return (
-      <FormContext.Provider values={this.state}>
-        {this.props.children}
-      </FormContext.Provider>
-    );
   }
-}
-
-export default FormProvider;
+});

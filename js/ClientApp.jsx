@@ -69,7 +69,7 @@ class ClientApp extends  React.Component {
             <input type="text" onChange={this.handleSearchTermChange} value={this.state.searchTerm} />
             <input type="text" onChange={this.handleSearchById} value={this.state.searchId} />
             <button onClick={this.handleOpenForm}>Open form</button>
-            {this.state.formOpen && <Form submitForm={this.handleSubmitForm}/>}
+            {this.state.formOpen && <Form />}
             <div>
                 <span>Imie: {this.state.firstName}</span>
             </div>

@@ -1,6 +1,6 @@
-import React from "react";
-import { func } from "prop-types";
+import React, { Component } from "react";
 import styled from "styled-components";
+import { FormContext } from "./FormContext";
 
 const Modal = styled.div`
 position: fixed; 
@@ -13,22 +13,18 @@ overflow: auto;
 background-color: rgb(0,0,0);
 background-color: rgba(0,0,0,0.4);
 `;
-const ModalContent = styled.div`
+const ModalContent = styled.form`
 background-color: #fefefe;
 margin: 15% auto;
 padding: 20px;
 border: 1px solid #888;
 width: 80%; `;
 
-class Form extends React.Component {
+class Form extends Component {
   state = {
     firstName: "",
     lastName: "",
     status: "Zatrudniony"
-  };
-
-  props = {
-    submitForm: Function
   };
 
   handleFirstNameChange = event => {
@@ -42,48 +38,50 @@ class Form extends React.Component {
     this.setState({ status: event.target.value });
   };
 
-  handelSubmitForm = () => {
-    this.props.submitForm(this.state);
-  };
 
   render() {
     return (
       <Modal>
-        <ModalContent>
-          <div>
-            First name:
-            <input
-              type="text"
-              onChange={this.handleFirstNameChange}
-              value={this.state.firstName}
-            />
-          </div>
-          <div>
-            Last name:
-            <input
-              type="text"
-              onChange={this.handleLastNameChange}
-              value={this.state.lastName}
-            />
-          </div>
-          <div>
-            Employent status:
-            <select onChange={this.handleStatusChange}>
-              <option value="Zatrudniony">Zatrudniony</option>
-              <option value="Wolny">Wolny</option>
-            </select>
-            </div>
-            <div>
-            <button onClick={this.handelSubmitForm}>Save Form</button>
-          </div>
-        </ModalContent>
+          <FormContext.Consumer>
+            {context => (
+              <ModalContent onSubmit={context.setFormState}>
+                <div>
+                  First name:
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    defaultValue={context.state.firstName}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastname">Last name:</label>
+                  <input
+                    name="lastName"
+                    id="lastName"
+                    type="text"
+                    defaultValue={context.state.lastName}
+                  />
+                </div>
+                <div>
+                  Employent status:
+                  <select
+                    defaultValue={context.state.status|| "Wolny"}
+                    name="status"
+                  >
+                    <option value="Zatrudniony">Zatrudniony</option>
+                    <option value="Wolny">Wolny</option>
+                  </select>
+                </div>
+                <div>
+                  <button type="submit">Save Form</button>
+                </div>
+                </ModalContent>
+            )}
+          </FormContext.Consumer>
       </Modal>
     );
   }
 }
-
-Form.propTypes = {
-  submitForm: func.isRequired
-};
 
 export default Form;

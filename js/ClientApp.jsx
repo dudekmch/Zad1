@@ -1,10 +1,9 @@
 import React from 'react'
-import { render } from 'react-dom'
 import axios from 'axios'
 import Post from './Post'
 import Form from './Form'
 
-class App extends  React.Component {
+class ClientApp extends  React.Component {
     state = {
         searchTerm: "",
         data: [{
@@ -90,5 +89,4 @@ class App extends  React.Component {
     }
 }
 
-
-render(<App />, document.getElementById('app'));
+export default ClientApp;

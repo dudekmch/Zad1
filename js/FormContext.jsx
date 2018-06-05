@@ -18,3 +18,5 @@ class FormProvider extends Component {
     );
   }
 }
+
+export default FormProvider;
